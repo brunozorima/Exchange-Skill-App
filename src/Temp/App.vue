@@ -28,7 +28,7 @@
             <router-link class="nav-link" to="/about">About</router-link>  <span class="sr-only">(current)</span>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" v-if="isLoggedIn" to="/login">Logout</router-link>  <span class="sr-only">(current)</span>
+            <a class="nav-link"  v-if="isLoggedIn" @click="logout">Logout</a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -37,24 +37,14 @@
         </form>
       </div>
     </nav>
-    <b-container>
-  <!-- allow the system to re-route without refreshing the page -->
-      <router-view/>
-    </b-container>
-    
+    <!-- allow the system to re-route without refreshing the page -->
+    <router-view/>
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
-
   export default {
-    computed : {    
-         ...mapState({
-            account: state => state.account,
-            users: state => state.users.all
-        }),
-        //returns true if the user is logged in else false 
-        isLoggedIn : function(){ return this.account.status.loggedIn}  
+    computed : {
+      isLoggedIn : function(){ return this.$store.getters.isLoggedIn}      
     },
     created: function () {
       this.$http.interceptors.response.use(undefined, function (err) {
@@ -65,19 +55,16 @@ import { mapState, mapActions } from 'vuex'
           throw err;
         });
       });
-    }
+    },
+    methods: {
+      logout: function () {
+        this.$store.dispatch('logout')
+        .then(() => {
+          this.$router.push('/login')
+        })
+      }
+    },
   }
-
-// ,
-//     methods: {
-//       logout: function () {
-//         this.$store.dispatch('logout')
-//         .then(() => {
-//           this.$router.push('/login')
-//         })
-//       }
-//     },
-
 </script>
 
 <style lang="less">

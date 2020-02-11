@@ -3,8 +3,8 @@ import 'mutationobserver-shim'
 import Vue from 'vue'
 import './plugins/bootstrap-vue'
 import App from './App.vue'
-import router from './router'
-import store from './store'
+import {router} from './helpers'
+import {store} from './store'
 import Axios from 'axios'
 
 //other libraries
@@ -17,7 +17,7 @@ dom.watch()  // This will kick of the initial replacement of i to svg tags and c
 
 //handling data management
 Vue.prototype.$http = Axios;
-const token = localStorage.getItem('token')
+const token = localStorage.getItem('user')
 if (token) {
   Vue.prototype.$http.defaults.headers.common['Authorization'] = token
 }

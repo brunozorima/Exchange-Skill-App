@@ -1,7 +1,6 @@
-// import config from 'config';
 import { authHeader } from '../_helpers';
 import axios from 'axios';
-const API_URL = 'https://localhost:44367/api/';
+const API_URL = 'https://localhost:44367/api/access/';
 
 export const userService = {
     login,
@@ -19,7 +18,7 @@ function login(username, password) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
     };
-    return axios.post(API_URL + 'acess/login', requestOptions)
+    return axios.post(API_URL + 'login', requestOptions)
         .then(handleResponse)
         .then(user => {
             // login successful if there's a jwt token in the response
@@ -27,7 +26,6 @@ function login(username, password) {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
             }
-
             return user;
         });
 }

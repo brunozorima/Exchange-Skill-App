@@ -3,18 +3,18 @@
         <div class="card bg-light">
             <article class="card-body mx-auto" style="max-width: 400px;">
             <h4 class="card-title mt-3 text-center ">Login</h4>
-            <form @submit.prevent="Login(user)">
+            <form @submit.prevent="handleSubmit">
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fas fa-envelope"></i> </span>
                 </div>
-                <input name="" class="form-control" placeholder="Email Address" type="email" v-model="user.email">
+                <input name="" class="form-control" placeholder="Email Address" type="email" v-model="username">
             </div> <!-- form-group// -->
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fas fa-lock"></i> </span>
                 </div>
-                <input class="form-control" placeholder="Password" type="password" v-model="user.password">
+                <input class="form-control" placeholder="Password" type="password" v-model="password">
             </div> <!-- form-group// -->
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block"> Login </button>
@@ -27,25 +27,33 @@
 </template>
 <script>
 
+import { mapState, mapActions } from 'vuex'
+
 export default {
     data() {
         return {
-            user:
-             {                
-                email: '',
-                password:''
-            }
+            username: '',
+            password:'',
+            submitted: false
         }
     },
-    methods: {     
-        async Login (user) {
-           let email = user.email 
-            let password = user.password
-            this.$store.dispatch('login', { email, password })
-            .then(() => this.$router.push('/dashboard'))
-            .catch(err => console.log(err))
-         }
-    }    
+    computed: {
+        ...mapState('account', ['status'])
+    },
+    created () {
+        // reset login status
+        this.logout();
+    },
+    methods: {
+        ...mapActions('account', ['login', 'logout']),
+        handleSubmit (e) {
+            this.submitted = true;
+            const { username, password } = this;
+            if (username && password) {
+                this.login({ username, password })
+            }
+        }
+    } 
 }
 </script>
 <style scoped>

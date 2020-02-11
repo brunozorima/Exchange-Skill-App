@@ -11,7 +11,7 @@
             <p class="divider-text">
                 <span class="bg-light">OR</span>
             </p>
-            <form @submit.prevent="RegisterUser(user)">
+            <form @submit.prevent="handleSubmit">
             <div class="form-group input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user"></i> </span>
@@ -53,9 +53,7 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
-const BaseURL = 'https://localhost:44381/api/access'
-
+import { mapState, mapActions } from 'vuex'
 export default {
     data() {
         return {
@@ -65,26 +63,18 @@ export default {
                 lastName: '',
                 email: '',
                 password:''
-            }, 
-            users:[]          
+            },
+            submitted: false         
         }
     },
+    computed: {
+        ...mapState('account', ['status'])
+    },
     methods: {     
-        async RegisterUser (user) {
-            try {
-                let axiosConfig = {
-                headers: {
-                    'Content-Type': 'application/json-patch+json;charset=UTF-8',
-                    'Access-Control-Allow-Origin': '*'
-                    }
-                }
-                const resp = axios.post(BaseURL + '/register', user, axiosConfig)
-                resp.then(function(result) {
-                    console.log(result)
-                })
-            } catch (err) {
-                console.error(err)
-            }
+        ...mapActions('account',['register']),
+        handleSubmit(e) {
+            this.submitted = true;
+            this.register(this.user);
         }
     }    
 }
