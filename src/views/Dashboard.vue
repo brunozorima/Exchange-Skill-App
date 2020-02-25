@@ -1,33 +1,29 @@
 <template>
   <div>
-    <h1>Welcome To Dashboard, {{account.user.firstName}}!</h1>
+    <user-details></user-details>
     <hr>
-    <table border="1" align="center">
-      <tr>
-        <th>Id</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-      </tr>
-      <tr>
-        <td>{{account.user.id}}</td>
-        <td>{{account.user.firstName}}</td>
-        <td>{{account.user.lastName}}</td>
-        <td>{{account.user.email}}</td>
-      </tr> 
-    </table>
+    <h1>Add New [Has Skill]</h1>
     <hr>
+    <ListOfSkills></ListOfSkills>    
+    <hr> 
+    <user-owned-skill></user-owned-skill>
+    <hr>
+    <user-wanted-skill></user-wanted-skill>
   </div>
 </template>
 <script>
- import { mapState, mapActions } from 'vuex'
+ import { mapState, mapActions, mapGetters } from 'vuex';
+ import UserDetails from '../components/UserDetails';
+ import UserOwnedSkill from '../components/UserOwnedSkill';
+ import UserWantedSkill from '../components/UserWantedSkill';
+ import ListOfSkills from '../components/ListOfSkills';
 
   export default {
-    computed : {
-         ...mapState({
-            account: state => state.account,
-            users: state => state.users.all
-        })
+    components: {
+      UserDetails,
+      UserOwnedSkill,
+      UserWantedSkill,
+      ListOfSkills
     }
   }
 </script>

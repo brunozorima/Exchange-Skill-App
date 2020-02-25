@@ -6,6 +6,8 @@ import Register from '../views/Register'
 import Dashboard from '../views/Dashboard'
 import Secure from '../views/Secure'
 import UserProfilePage from '../views/UserPages/UserProfilePage'
+import WantedPeopleList from '../components/WantedPeopleList'
+import PeopleOwnedSkillList from '../components/PeopleOwnedSkillList'
 
 //this is original router file
 
@@ -47,6 +49,18 @@ const routes = [
     path: '/user/:id',
     name: 'UserProfilePage',
     component: UserProfilePage
+  },
+  {
+    path: '/skills/:skillId/wantedPeople',
+    name: 'WantedPeopleList',
+    component: WantedPeopleList,
+    props: true
+  },
+  {
+    path: '/skills/:skillId/ownedByPeople',
+    name: 'PeopleOwnedSkillList',
+    component: PeopleOwnedSkillList,
+    props: true
   },
   {
     path: '/about',

@@ -33,7 +33,7 @@ export default {
           users: state => state.users.all.items
       })
   },
-  created () {
+  created () { 
       this.getAllUsers();
   },
   methods: {

@@ -5,9 +5,17 @@ import { userService } from '../services';
 import { router } from '../helpers';
 
 const user = JSON.parse(JSON.stringify(localStorage.getItem('user')));
-const state = user
+
+function getUser(user){
+    return (user 
     ? { status: { loggedIn: true }, user }
-    : { status: {}, user: null };
+    : { status: {}, user: null }
+    )
+}; 
+const state = 
+     user 
+    ? { status: { loggedIn: true }, user }
+    : { status: {}, user: null }  
 
 const actions = {
     login({ dispatch, commit }, { username, password }) {
@@ -35,7 +43,7 @@ const actions = {
         userService.register(user)
             .then(
                 user => {
-                    commit('registerSuccess', user);
+                    commit('registerSuccess');
                     router.push('/login');
                     setTimeout(() => {
                         // display success message after route change completes
@@ -57,7 +65,7 @@ const mutations = {
     },
     loginSuccess(state, user) {
         state.status = { loggedIn: true };
-        state.user = user;
+        state.user =  user;
     },
     loginFailure(state) {
         state.status = {};
@@ -67,20 +75,25 @@ const mutations = {
         state.status = {};
         state.user = null;
     },
-    registerRequest(state, user) {
+    registerRequest(state) {
         state.status = { registering: true };
     },
-    registerSuccess(state, user) {
+    registerSuccess(state) {
         state.status = {};
     },
-    registerFailure(state, error) {
+    registerFailure(state) {
         state.status = {};
     }
 };
-
+const getters = {
+    loggedUserId: state => {
+        return state.user.id
+    } 
+};
 export const account = {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    getters
 };

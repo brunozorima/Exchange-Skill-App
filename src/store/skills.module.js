@@ -1,0 +1,185 @@
+//The vuex users module is in charge of the skills section of the centralised state store. It contains actions for fetching all skills from the api and deleting a skill,
+// and contains mutations for each of the lower level state changes involved in each action.
+import { skillService } from '../services';
+
+const state = {
+    allSkills: {},
+    myHasSkill: {},
+    UserWantedSkills:{},
+    myWantedSkillToGain: {},
+    loadingMySkills: false,
+    skillAdded: {},
+    wantedPeople: {},
+    OwnedSkillByPeople: {}
+};
+
+const actions = {
+    //get all skills
+    getAllSkills({ commit }) {
+        commit('getAllSkillsRequest');
+
+        skillService.getAllSkills()
+            .then(
+                skills => commit('getAllSkillsSuccess', skills),
+                error => commit('getAllSkillsFailure', error)
+            );
+    },
+
+    //get the list of skills a person HAVE based on their ID
+    GetPersonHasSkillById({commit}, person_id){
+        commit('getPersonHasSkillRequest');
+        //get the skills
+        skillService.getPersonHasSkillById(person_id)
+        .then(
+            skill => commit('getPersonHasSkillSuccess', skill),
+            error => commit('getPersonHasSkillFailure', error )
+        );
+    },
+    //get the list of skills a person Wants to gain based on their ID
+    getWantedSkillsByPersonId({commit}, person_id){
+        commit('getWantedSkillsByPersonIdRequest');
+        //get the skills
+        skillService.getWantedSkillsByPersonId(person_id)
+        .then(
+            skillToGain => commit('getWantedSkillsByPersonIdSuccess', skillToGain),
+            error => commit('getWantedSkillsByPersonIdFailure', error )
+        );
+    },
+
+    //add a OWN or HAVE skill to a list
+    addHasSkill({commit}, {person_id, id}){
+        commit('addSkillRequest', id);
+
+        skillService.addHasSkill(person_id, id);
+        skillService.getSkillById(id)
+        .then(
+            new_added_skill => commit('addSkillSuccess', new_added_skill),
+            error => commit('addSkillFailure', error )
+        );
+    },
+
+    
+    //add a WANT or NEED skill to a list of this particular user
+    addUserWantSkill({commit}, {person_id, skill_id}){
+        commit('addUserWantSkillRequest', skill_id);
+        //save this new skill to the database
+        skillService.addUserWantSkill(person_id, skill_id);
+        skillService.getSkillById(skill_id)
+        .then(
+            added_wanted_skill => commit('addUserWantSkillSuccess', added_wanted_skill),
+            error => commit('addUserWantSkillFailure', error )
+        );
+    },
+
+    //get the list of people who Wants To Learn a particular skill based on given skill-ID
+    getWantedPersonBySkillId({commit}, skill_id){
+        commit('getWantedPeopleRequest', skill_id);
+        //get a list of people with particular skill
+        skillService.GetWantedPersonBySkillId(skill_id)
+        .then(
+            wantedPeople => commit('getWantedPeopleSuccess', wantedPeople),
+            error => commit('getWantedPeopleFailure', error )
+        );
+    },
+
+    //get a list of people who OWNS a particular skill set
+    getPeopleOwnedSkillsBySkillId({commit}, skill_id){
+        commit('getPeopleOwnedSkillsBySkillIdRequest', skill_id);
+        //get a list of people with particular skill
+        skillService.getPeopleOwnedSkillsBySkillId(skill_id)
+        .then(
+            PeopleOwnSkills => commit('getPeopleOwnedSkillsBySkillIdSuccess', PeopleOwnSkills),
+            error => commit('getPeopleOwnedSkillsBySkillIdFailure', error )
+        );
+    }
+};
+
+const mutations = {
+    addUserWantSkillRequest(state, id){
+        state.UserWantedSkills = {isAddding: true, id}
+    },
+    addUserWantSkillSuccess(state, WantedskillAdded){
+        state.UserWantedSkills = { new_wanted_skill_added: WantedskillAdded }
+        state.myWantedSkillToGain.SkillsToGain.push(WantedskillAdded)
+    },
+    addUserWantSkillFailure(state, err){
+        state.UserWantedSkills = {err}
+    },
+
+    //requesting all available skill
+    getAllSkillsRequest(state) {
+        state.allSkills = { loading: true };
+    },
+    getAllSkillsSuccess(state, skills) {
+        state.allSkills = { skills };
+    },
+    getAllSkillsFailure(state, error) {
+        state.allSkills = { error };
+    },
+
+    //get a person all skills they have
+    getPersonHasSkillRequest(state){
+        state.allSkills.listOfSkills = {loadingMySkills: true};
+    },
+    getPersonHasSkillSuccess(state, skill) {
+        state.myHasSkill = { skill };
+    },
+    getPersonHasSkillFailure(state, err){
+        state.myHasSkill = { err };
+    },
+
+
+    //add new has skill
+    addSkillRequest(state, id){
+        state.skillAdded = { isAdding: true, hasKill_id: id };
+    },
+    addSkillSuccess(state, addedSkill){
+        state.skillAdded = { new_skill: addedSkill };
+        state.myHasSkill.skill.push(addedSkill)
+    },
+    addSkillFailure(state, error){
+        state.skillAdded = {error}
+    },
+
+
+    //list of wanted people
+    getWantedPeopleRequest(state, id){
+        state.wantedPeople = { loading: true, skill_id: id };
+    },
+    getWantedPeopleSuccess(state, wantedPeople){
+        state.wantedPeople = { wantedPeople };
+    },
+    getWantedPeopleFailure(state, err){
+        state.wantedPeople = {err}
+    },
+
+    //get all the skills a person wants to gain or learn
+    getWantedSkillsByPersonIdRequest(state, person_id){
+        state.myWantedSkillToGain = {loading: true, Person_id: person_id}
+    },
+    getWantedSkillsByPersonIdSuccess(state, SkillsToGain){
+        state.myWantedSkillToGain = { SkillsToGain };
+    },
+    getWantedSkillsByPersonIdFailure(state, err) {
+        state.myWantedSkillToGain = {err}
+    },
+
+    //get a list of who people who owns particular skills
+    getPeopleOwnedSkillsBySkillIdRequest(state, id){
+        state.OwnedSkillByPeople = {loading: true, skill_id: id}
+    },
+    getPeopleOwnedSkillsBySkillIdSuccess(state, skillOwned){
+        state.OwnedSkillByPeople = {skillOwned}
+    },
+    getPeopleOwnedSkillsBySkillIdFailure(state, err) {
+        state.OwnedSkillByPeople = { err }
+    }
+
+};
+
+export const skills = {
+    namespaced: true,
+    state,
+    actions,
+    mutations
+};
