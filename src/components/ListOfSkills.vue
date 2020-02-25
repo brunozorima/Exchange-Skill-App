@@ -12,13 +12,6 @@
             <option value="own">Own</option>
             <option value="wanted">Need</option>
         </select>
-
-        <!-- <input type="radio" id="own" value="own" v-model="picked">
-        <label for="one">I Have This Skill</label>
-        <br>
-        <input type="radio" id="wanted" value="wanted" v-model="picked">
-        <label for="two">I Need This Skill</label> -->
-
         <br>
         <button v-on:click="addNewSkill()">Add Skill</button>
     </div>

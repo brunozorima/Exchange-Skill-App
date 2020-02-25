@@ -1,17 +1,21 @@
 <template>
   <div class="hello">
     <hr>
-    <h3>{{$route.params.id}}</h3>
+    <h3>{{user.firstName}} {{user.lastName}}</h3>
     <hr>
+    <textarea v-model="message" placeholder="Write your message here"></textarea>
+    <br>
+    <button>Request Exchange</button>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
-    return{
-      id: 0
+  props:["id"],
+  data(){
+    return {
+      message:''
     }
   },
   computed: {

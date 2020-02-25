@@ -48,7 +48,8 @@ const routes = [
   {
     path: '/user/:id',
     name: 'UserProfilePage',
-    component: UserProfilePage
+    component: UserProfilePage,
+    props: true
   },
   {
     path: '/skills/:skillId/wantedPeople',

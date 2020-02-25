@@ -4,7 +4,7 @@
         <h1>People Who Wants To Gain: {{this.skillId}}</h1>
         <ul>
             <li v-for="person in wantedPeople.wantedPeople" :key="person.id">
-                {{person.firstName}} 
+                <router-link :to="{ name: 'UserProfilePage', params: { id: person.id }}"> {{person.firstName}} </router-link>                
             </li>
         </ul>
     </div>
