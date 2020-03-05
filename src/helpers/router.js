@@ -8,6 +8,7 @@ import Secure from '../views/Secure'
 import UserProfilePage from '../views/UserPages/UserProfilePage'
 import WantedPeopleList from '../components/WantedPeopleList'
 import PeopleOwnedSkillList from '../components/PeopleOwnedSkillList'
+import Message from '../components/ExchangeComponents/Messages'
 
 //this is original router file
 
@@ -61,6 +62,12 @@ const routes = [
     path: '/skills/:skillId/ownedByPeople',
     name: 'PeopleOwnedSkillList',
     component: PeopleOwnedSkillList,
+    props: true
+  },
+  {
+    path:'/exchange/:exchangeId',
+    name: 'Message',
+    component: Message,
     props: true
   },
   {

@@ -8,6 +8,8 @@ import { alert } from './alert.module';
 import { account } from './account.module';
 import { users } from './users.module';
 import { skills } from './skills.module';
+import { exchange } from './exchange.module';
+
 
 Vue.use(Vuex);
 
@@ -16,6 +18,7 @@ export const store = new Vuex.Store({
         alert,
         account,
         users, 
-        skills
+        skills,
+        exchange
     }
 });

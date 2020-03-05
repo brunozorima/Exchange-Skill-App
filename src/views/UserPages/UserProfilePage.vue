@@ -3,33 +3,53 @@
     <hr>
     <h3>{{user.firstName}} {{user.lastName}}</h3>
     <hr>
-    <textarea v-model="message" placeholder="Write your message here"></textarea>
+    <textarea v-model="MessageBody" placeholder="Write your message here"></textarea>
     <br>
-    <button>Request Exchange</button>
+    <button v-on:click="SendRequest()">Request Exchange</button>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
   props:["id"],
   data(){
-    return {
-      message:''
+    return {    
+      MessageBody:''
     }
   },
   computed: {
       ...mapState({
           user: state => state.users.user
-      })
+      }),
+      ...mapGetters('account', ['loggedUserId'])
   },
   created () {
       this.getUserData(this.id);
   },
   methods: {
-      ...mapActions('users', {
+    ...mapActions('exchange',['RequestExchange']),
+    ...mapActions('users', {
           getUserData: 'getUserById'
-      })
+      }),
+      //local methods
+      SendRequest(){
+        var exchangeRequest = {
+              Sender_Id: this.loggedUserId,
+              Recipient_Id: Number(this.id),
+              Opened_TimeStamp: new Date().toISOString(),
+              Last_Message_TimeStamp: new Date().toISOString(),
+              Status: 0
+            };
+
+        var message = {
+              Sender_Id: this.loggedUserId,
+              Exchange_Id: 0,
+              Body: this.MessageBody,
+              TimeStamp: new Date().toISOString()
+            };
+        this.RequestExchange({exchangeRequest, message}) 
+      }
   }
 }
 </script>

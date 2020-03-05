@@ -18,8 +18,7 @@ export default {
     },
     computed: {
         ...mapGetters('account', ['loggedUserId']),
-        ...mapState('skills', ['myWantedSkillToGain']),
-
+        ...mapState('skills', ['myWantedSkillToGain'])
     },
     methods: {
         ...mapActions('skills',['getWantedSkillsByPersonId'])
