@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login'
 import Register from '../views/Register'
 import Dashboard from '../views/Dashboard'
-import Secure from '../views/Secure'
+import Profile from '../components/UserDetails'
 import UserProfilePage from '../views/UserPages/UserProfilePage'
 import WantedPeopleList from '../components/WantedPeopleList'
 import PeopleOwnedSkillList from '../components/PeopleOwnedSkillList'
@@ -39,12 +39,13 @@ const routes = [
     }
   },
   {
-    path: '/secure',
-    name: 'secure',
-    component: Secure,
+    path: '/members/profile',
+    name: 'Profile',
+    component: Profile,
     meta: { 
       requiresAuth: true
-    }
+    },
+    props: true
   },
   {
     path: '/user/:id',
