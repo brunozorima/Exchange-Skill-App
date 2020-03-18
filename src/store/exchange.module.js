@@ -9,6 +9,19 @@ const state = {
 };
 
 const actions = {    
+    SendMessage({commit}, messageObject){
+        commit('SendingMessageRequest',  messageObject);
+        exchangeService.SendMessage(messageObject)
+            .then(message_id => {
+                exchangeService.GetMessageById(message_id, messageObject.Sender_Id).then(
+                    message => commit('MessageSent', message),
+                    err => commit('MessageFailed', err)
+                )
+            }
+        )
+        err => commit('MessageFailed', err)
+    },
+
     RequestExchange({ commit },  {exchangeRequest, message} ) {
         commit('RequestExchange', {exchangeRequest, message} );
 
@@ -61,6 +74,16 @@ const actions = {
 };
 
 const mutations = {
+    SendingMessageRequest(state, message){
+        state.Messages = {newMsg: message}
+    },
+    MessageSent(state,message){      
+        this.state.Messages.allMessage.message.push(message);
+        state.Messages = {newMsg: message}
+    },
+    MessageFailed(state, err){
+        state.Messages = {newMsg: err}
+    },
     GetExchangesSentRequest(state, user_id){
         state.SentRequests = {data: {user_id}}
     },
@@ -74,7 +97,7 @@ const mutations = {
         state.Messages = {data: {exchangeId, loggedUserId}}
     },
     GetMessageSuccess(state, messages){
-        state.Messages = { MessageData: true, messages}
+        state.Messages = {allMessage: messages}
     },
     GetMessageFailure(state, err){
         state.Messages = {err}

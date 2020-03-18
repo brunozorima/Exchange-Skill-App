@@ -7,22 +7,22 @@
           </div>
               <ul class="col-xs-12 tabs-mobile">
                     <li id="menu-dashboard" role="presentation" class="tabs-mobile__item tabs-mobile__item--active">
-                        <a class="tabs-mobile__link" v-on:click="currentTabComponent = 'UserOwnedSkill'" href="#">MY SKILLS</a>
+                        <a class="tabs-mobile__link" v-on:click="currentTabComponent = 'UserDetails'">PROFILE</a>
                     </li>
                     <li id="menu-profile" role="presentation" class="tabs-mobile__item">
-                        <a class="tabs-mobile__link" v-on:click="currentTabComponent = 'UserDetails'" href="#">PROFILE</a>
+                        <a class="tabs-mobile__link" v-on:click="currentTabComponent = 'userSkills'">SKILLS</a>
                     </li>
                     <li id="menu-bookaclass" role="presentation" class="tabs-mobile__item">
-                        <a class="tabs-mobile__link" v-on:click="currentTabComponent = 'ListOfSkills'" href="#">ADD SKILL</a>
+                        <a class="tabs-mobile__link" v-on:click="currentTabComponent = 'ListOfSkills'">ADD SKILL</a>
                     </li>
                     <li id="menu-courses" role="presentation" class="tabs-mobile__item">
-                        <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'ExchangeSent'" href="#">EXCHANGES SENT</a>
+                        <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'AllExchanges'">EXCHANGES</a>
                     </li>
                     <li id="menu-activity" role="presentation" class="tabs-mobile__item">
-                        <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'ExchangeRecieved'" href="#">EXCHANGES RECIEVED</a>
+                        <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'AllExchanges'">MESSAGES</a>
                     </li>
                     <li id="menu-benefits" role="presentation" class="tabs-mobile__item">
-                        <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'UserWantedSkill'" href="#">SETTINGS</a>
+                        <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'AllExchanges'">SETTINGS</a>
                     </li>
               </ul>
           </div>
@@ -42,22 +42,17 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex';
 import UserDetails from '../components/UserDetails';
-import UserOwnedSkill from '../components/UserOwnedSkill';
-import UserWantedSkill from '../components/UserWantedSkill';
+import userSkills from '../components/SkillComponent/skillPage';
 import ListOfSkills from '../components/ListOfSkills';
-import ExchangeSent from '../components/ExchangeComponents/ExchangeSent';
-import ExchangeRecieved from '../components/ExchangeComponents/ExchangeRecieved';
+import AllExchanges from '../components/ExchangeComponents/AllExchanges';
 
 export default {
  components: {
       UserDetails,
-      UserOwnedSkill,
-      UserWantedSkill,
+      userSkills,
       ListOfSkills,
-      ExchangeSent,
-      ExchangeRecieved
+      AllExchanges
     },
   data() {
     return {

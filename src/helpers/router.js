@@ -8,7 +8,9 @@ import Profile from '../components/UserDetails'
 import UserProfilePage from '../views/UserPages/UserProfilePage'
 import WantedPeopleList from '../components/WantedPeopleList'
 import PeopleOwnedSkillList from '../components/PeopleOwnedSkillList'
-import Message from '../components/ExchangeComponents/Messages'
+// import Message from '../components/ExchangeComponents/Messages'
+import ChatContainer from '../components/ChatContainer/ChatContainer'
+
 
 //this is original router file
 
@@ -67,8 +69,8 @@ const routes = [
   },
   {
     path:'/exchange/:exchangeId',
-    name: 'Message',
-    component: Message,
+    name: 'ChatContainer',
+    component: ChatContainer,
     props: true
   },
   {

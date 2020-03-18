@@ -2,10 +2,12 @@
 import { authHeader } from '../helpers';
 import axios from 'axios';
 const API_URL = 'https://localhost:44381/api/exchange';
+const API_URL_Message = 'https://localhost:44381/api/Message';
 
 export const exchangeService = {
     RequestExchange,
     SendMessage,
+    GetMessageById,
     GetExchangeMessageByExchangeId,
     GetExchangeRequestSentTo,
     GetExchangeRequestRecievedFrom   
@@ -67,4 +69,11 @@ async function SendMessage(exchangeMessage) {
         headers: { 'Content-Type': 'application/json-patch+json;charset=UTF-8'}        
     };
     return axios.post(API_URL + '/message', exchangeMessage, requestOptions).then(handleResponse)
+}
+async function GetMessageById(message_id, loggedInUser){
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+    return axios.get(API_URL_Message + `/${message_id}/user/${loggedInUser}`, requestOptions).then(handleResponse);
 }
