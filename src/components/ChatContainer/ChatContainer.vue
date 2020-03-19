@@ -1,7 +1,7 @@
 <template>
     <div class="chat-container">
         <div class="heading">
-        <h1>{{title + ' - User:ExchangeId ' + exchangeId }}</h1>
+        <h1>{{title + exchangeWith }}</h1>
         </div>
         <div class="body">
             <div class="table">
@@ -16,10 +16,10 @@ import ChatLog from '../ChatContainer/ChatLog';
 import MessageInput from '../ChatContainer/MessageInput';
 
 export default {
-    props: ["exchangeId"],
+    props: ["exchangeId", "exchangeWith"],
     data() {
         return {
-            title: 'Exchange With',
+            title: 'Exchange With ',
             id_exchange: this.exchangeId
         };
     },

@@ -1,10 +1,9 @@
 <template>
     <div>
-        <h1>My Owned Skills (User HAS Skill) </h1>
-        <h6>(Skills other people may want to lear)</h6>
+        <h1>I have this SKILLS</h1>
         <ul>
             <li v-for="skill in myHasSkill.skill" :key="skill.id" >
-                <router-link :to="{ name: 'WantedPeopleList', params: { skillId: skill.id }}"> {{ skill.name }} </router-link>                
+                <router-link :to="{ name: 'WantedPeopleList', params: { skillId: skill.id, skillName: skill.name }}"> {{ skill.name }} </router-link>                
             </li>
         </ul>
     </div>

@@ -4,7 +4,7 @@
         ref="chatLogContainer"
     >
     <message-bubble
-        v-for="(msg, index) in Messages.allMessage" 
+        v-for="(msg, index) in messageList" 
         v-bind:key="index"
         v-bind:uuid="msg.from"
         v-bind:text="msg.body"
@@ -24,7 +24,7 @@ export default {
     },    
     computed: {
         ...mapGetters('account', ['loggedUserId']),
-        ...mapState('exchange', ['Messages'])  
+        ...mapState('exchange', ['messageList'])  
     },
     methods: {
         ...mapActions('exchange', ['GetExchangeMessageByExchangeId']),
@@ -36,7 +36,7 @@ export default {
     components: {MessageBubble},
     data() {
         return {
-            vueChatMsg: this.Messages,
+            vueChatMsg: this.messageList,
         }
     },
     watch: {

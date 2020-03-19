@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h1>Wanted Skills</h1>
+        <h1>I want to gain these SKILLS</h1>
         <ul>
             <li v-for="skill in myWantedSkillToGain.SkillsToGain" :key="skill.id" >
-                <router-link :to="{ name: 'PeopleOwnedSkillList', params: { skillId: skill.id }}"> {{ skill.name }} </router-link>                
+                <router-link :to="{ name: 'PeopleOwnedSkillList', params: { skillId: skill.id, skillName: skill.name  }}"> {{ skill.name }} </router-link>                
             </li>
         </ul>
     </div>

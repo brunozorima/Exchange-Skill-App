@@ -3,7 +3,7 @@
         <h1>Exchanges Recieved From: </h1>
         <ul>
             <li v-for="exchange in RecievedRequests.allRequests" :key="exchange.exchange_Id" >
-                <router-link :to="{ name: 'ChatContainer', params: { exchangeId: exchange.exchange_Id}}"> {{exchange.lastName}}</router-link>             
+                <router-link :to="{ name: 'ChatContainer', params: { exchangeId: exchange.exchange_Id, exchangeWith:exchange.firstName}}">{{exchange.firstName}} {{exchange.lastName}}</router-link>             
             </li>
         </ul>
     </div>

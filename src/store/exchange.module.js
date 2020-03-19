@@ -5,7 +5,8 @@ const state = {
     SentRequests: {},
     RecievedRequests:{},
     Messages: {},
-    ExchangeId: {}
+    ExchangeId: {},
+    messageList:[]
 };
 
 const actions = {    
@@ -77,9 +78,8 @@ const mutations = {
     SendingMessageRequest(state, message){
         state.Messages = {newMsg: message}
     },
-    MessageSent(state,message){      
-        this.state.Messages.allMessage.message.push(message);
-        state.Messages = {newMsg: message}
+    MessageSent(state,message){   
+        state.messageList.push(message);   
     },
     MessageFailed(state, err){
         state.Messages = {newMsg: err}
@@ -97,7 +97,7 @@ const mutations = {
         state.Messages = {data: {exchangeId, loggedUserId}}
     },
     GetMessageSuccess(state, messages){
-        state.Messages = {allMessage: messages}
+        state.messageList = messages;
     },
     GetMessageFailure(state, err){
         state.Messages = {err}
