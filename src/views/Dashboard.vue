@@ -19,7 +19,7 @@
                         <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'AllExchanges'">EXCHANGES</a>
                     </li>
                     <li id="menu-activity" role="presentation" class="tabs-mobile__item">
-                        <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'AllExchanges'">MESSAGES</a>
+                        <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'PendingExchanges'">NOTIFICATIONS</a>
                     </li>
                     <li id="menu-benefits" role="presentation" class="tabs-mobile__item">
                         <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'AllExchanges'">SETTINGS</a>
@@ -46,13 +46,16 @@ import UserDetails from '../components/UserDetails';
 import userSkills from '../components/SkillComponent/skillPage';
 import ListOfSkills from '../components/ListOfSkills';
 import AllExchanges from '../components/ExchangeComponents/AllExchanges';
+import PendingExchanges from '../components/ExchangeComponents/PendingExchanges';
+
 
 export default {
  components: {
       UserDetails,
       userSkills,
       ListOfSkills,
-      AllExchanges
+      AllExchanges,
+      PendingExchanges
     },
   data() {
     return {
@@ -64,7 +67,7 @@ export default {
 
 <style scoped>
 .page__content--membersarea {
-  background-color: #00999D;
+  background-color:slategrey;
   padding: 20px 0 0 0;
 }
 .page__content {

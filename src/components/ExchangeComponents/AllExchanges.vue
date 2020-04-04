@@ -1,7 +1,5 @@
 <template>
     <div>
-        <ExchangeSent></ExchangeSent>
-        <hr>
         <ExchangeRecieved></ExchangeRecieved>
     </div>
 </template>

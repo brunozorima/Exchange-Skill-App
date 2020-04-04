@@ -10,7 +10,10 @@ export const exchangeService = {
     GetMessageById,
     GetExchangeMessageByExchangeId,
     GetExchangeRequestSentTo,
-    GetExchangeRequestRecievedFrom   
+    GetExchangeRequestRecievedFrom,
+    GetAcceptedExchanges,
+    UpdateRequest,
+    CancelRequest
 };
 
 //Handless all requests
@@ -42,6 +45,35 @@ async function GetExchangeRequestRecievedFrom(userId) {
         headers: authHeader()
     };
     return axios.get(API_URL + `/user/${userId}/recieved`, requestOptions).then(handleResponse);
+}
+
+//Accepted Requests ONLY
+async function GetAcceptedExchanges(userId) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return axios.all([
+        axios.get(API_URL + `/user/${userId}/recieved/1`, requestOptions),
+        axios.get(API_URL + `/user/${userId}/sent/1`, requestOptions)
+    ]).then(
+        axios.spread((recieved, sent) => {
+            const data = {
+                recieved,
+                sent
+            };
+            return data;
+        })
+    );
+}
+
+async function UpdateRequest(exchangeId, status, user ) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json-patch+json;charset=UTF-8'}        
+    };
+    return axios.put(API_URL + `/${exchangeId}/${status}/${user}`, null, requestOptions).then(handleResponse)
 }
 
 //get all exchange requests sent To this user based on the userId
@@ -76,4 +108,12 @@ async function GetMessageById(message_id, loggedInUser){
         headers: authHeader()
     };
     return axios.get(API_URL_Message + `/${message_id}/user/${loggedInUser}`, requestOptions).then(handleResponse);
+}
+
+async function CancelRequest(exchange_id, loggedInUser){
+    const requestOptions = {
+        method: 'DELETE',
+        headers: authHeader()
+    };
+    return axios.delete(API_URL + `/${exchange_id}/user/${loggedInUser}`, requestOptions).then(handleResponse);
 }

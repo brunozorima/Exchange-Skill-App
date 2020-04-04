@@ -1,25 +1,26 @@
 <template>
     <div>
-        <h1>Exchanges Recieved From: </h1>
-        <ul>
-            <li v-for="exchange in RecievedRequests.allRequests" :key="exchange.exchange_Id" >
+        <h1>Accepted Proposal: </h1>
+        <ul v-if="AcceptedRequestsList.length > 0">
+            <li v-for="(exchange, index) in AcceptedRequestsList" :key="index" >
                 <router-link :to="{ name: 'ChatContainer', params: { exchangeId: exchange.exchange_Id, exchangeWith:exchange.firstName}}">{{exchange.firstName}} {{exchange.lastName}}</router-link>             
             </li>
         </ul>
+        <p v-else>No Proposal Available!</p>
     </div>
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex';
 export default {
     mounted(){       
-        this.GetExchangeRequestRecievedFrom(this.loggedUserId);
+        this.GetAcceptedExchangesList(this.loggedUserId);
     },
     computed: {
         ...mapGetters('account', ['loggedUserId']),
-        ...mapState('exchange', ['RecievedRequests'])
+        ...mapState('exchange', ['AcceptedRequestsList'])
     },
     methods: {
-        ...mapActions('exchange',['GetExchangeRequestRecievedFrom'])
+        ...mapActions('exchange',['GetAcceptedExchangesList'])
     }
 }
 </script>

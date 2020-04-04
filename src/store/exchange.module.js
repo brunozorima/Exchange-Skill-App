@@ -3,10 +3,13 @@ import { router } from '../helpers';
 
 const state = {
     SentRequests: {},
-    RecievedRequests:{},
     Messages: {},
     ExchangeId: {},
-    messageList:[]
+    messageList: [],
+    AllExchanges: [],
+    AcceptedRequestsList: [],
+    AllSentRequests:[],
+    ExchangeObject: {}
 };
 
 const actions = {    
@@ -62,7 +65,6 @@ const actions = {
                 err => commit('GetExchangesRequestRecievedFailure', err)
             );
     },
-
     GetExchangeMessageByExchangeId({ commit }, {exchangeId, loggedUserId}) {
         commit('GetMessagesRequest', {exchangeId, loggedUserId});
 
@@ -71,10 +73,87 @@ const actions = {
                 Messages => commit('GetMessageSuccess', Messages),
                 err => commit('GetMessageFailure', err)
             );
+    },
+    GetAcceptedExchangesList({ commit }, userId ) {
+        commit('GetAcceptedRequestCommit', userId);
+
+        exchangeService.GetAcceptedExchanges(userId)
+            .then(
+                acceptedRequests => commit('GetAcceptedRequestSuccess', acceptedRequests),
+                err => commit('GetAcceptedRequestFailure', err)
+            );
+    },
+    UpdateRequest({commit}, {request_id, status, userId, exchange, index}){
+        commit('updateRequestCommit', request_id);
+
+        exchangeService.UpdateRequest(request_id, status, userId)
+            .then(
+                updateExchangeStatus => commit('updateRequestSuccess', exchange, index),
+                err => commit('updateRequestFailure', err)
+            );
+    },
+    CancelRequest({commit}, {request_id, userId, index}){
+        commit('CancelRequestCommit', request_id);
+
+        exchangeService.CancelRequest(request_id, userId)
+            .then(
+                CancelRequestStatus => commit('CancelRequestSuccess', index),
+                err => commit('CancelRequestFailure', err)
+            );
+    },
+    RejectExchange({commit}, {request_id, userId, index}){
+        commit('RejectRequestCommit', request_id);
+
+        exchangeService.CancelRequest(request_id, userId)
+            .then(
+                CancelRequestStatus => commit('RejectRequestSuccess', index),
+                err => commit('RejectRequestFailure', err)
+            );
     }
 };
 
 const mutations = {
+    CancelRequestCommit(state, req_id){
+        state.ExchangeObject = req_id;
+    },
+    CancelRequestSuccess(state, index){
+        state.AllSentRequests.splice(index, 1)
+    },
+    CancelRequestFailure(state, err){
+        state.ExchangeObject = err;
+    },
+    RejectRequestCommit(state, req_id){
+        state.ExchangeObject = req_id;
+    },
+    RejectRequestSuccess(state, index){
+        state.AllExchanges.splice(index, 1)
+    },
+    RejectRequestFailure(state, err){
+        state.ExchangeObject = err;
+    },
+    updateRequestCommit(state, request_id){
+        state.exchangeId = request_id
+    },
+    updateRequestSuccess(state, exchange, index){
+        state.AcceptedRequestsList.push(exchange)
+        state.AllExchanges.splice(index, 1)
+    },
+    updateRequestFailure(state, err){
+        state.exchangeId = err
+    },
+    GetAcceptedRequestCommit(state, userId){
+        state.AcceptedRequestsList = userId
+    },
+    GetAcceptedRequestSuccess(state, AllAcceptedExchanges){
+        state.AcceptedRequestsList = AllAcceptedExchanges.recieved.data
+        AllAcceptedExchanges.sent.data.forEach(element => {
+            state.AcceptedRequestsList.push(element) 
+        });
+    },
+    GetAcceptedRequestFailure(state, err) {
+        state.AcceptedRequestsList = err
+    },
+
     SendingMessageRequest(state, message){
         state.Messages = {newMsg: message}
     },
@@ -88,7 +167,7 @@ const mutations = {
         state.SentRequests = {data: {user_id}}
     },
     GetExchangesSentRequestSuccess(state, allRequests){
-        state.SentRequests = { ReturnedData: true, allRequests}
+        state.AllSentRequests = allRequests;
     },
     GetExchangesSentRequestFailure(state, err){
         state.SentRequests = {err}
@@ -103,13 +182,13 @@ const mutations = {
         state.Messages = {err}
     },
     GetExchangesRequestRecieved(state, user_id){
-        state.RecievedRequests = {data: {user_id}}
+        state.AllExchanges = {data: {user_id}}
     },
     GetExchangesRequestRecievedSuccess(state, allRequests){
-        state.RecievedRequests = { ReturnedData: true, allRequests}
+        state.AllExchanges = allRequests;
     },
     GetExchangesRequestRecievedFailure(state, err){
-        state.RecievedRequests = {err}
+        state.AllExchanges = {err}
     },
     RequestExchange(state, exchangeRequest, message){
         state.ExchangeId = exchangeRequest, message
@@ -121,10 +200,18 @@ const mutations = {
         state.ExchangeId = {err}
     },
 };
+const getters = {
+    isExchangeEmpty: state => {
+        if(state.AllExchanges.length > 0){
+            return true
+        }        
+    } 
+};
 
 export const exchange = {
     namespaced: true,
     state,
     actions,
-    mutations
+    mutations,
+    getters
 };
