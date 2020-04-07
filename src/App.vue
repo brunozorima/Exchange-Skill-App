@@ -11,11 +11,6 @@ import AppHeader from '../src/views/AppHeader';
     components: {
       AppHeader
     },
-    computed : {    
-         ...mapState({            
-            users: state => state.users.all
-        })        
-    },
     created: function () {
       this.$http.interceptors.response.use(undefined, function (err) {
         return new Promise(function (resolve, reject) {

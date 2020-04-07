@@ -59,7 +59,7 @@ async function getAll() {
         headers: authHeader()
     };
 
-    return axios.get(API_URL + '/users', requestOptions)
+    return axios.get(API_For_User, requestOptions)
     .then(handleResponse)
 }
 

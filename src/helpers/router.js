@@ -9,6 +9,7 @@ import UserProfilePage from '../views/UserPages/UserProfilePage'
 import WantedPeopleList from '../components/WantedPeopleList'
 import PeopleOwnedSkillList from '../components/PeopleOwnedSkillList'
 import UserProfile from '../components/UserComponent/UserProfile'
+import UserProposal from '../components/ProposalComponent/ProposalRequest'
 import ChatContainer from '../components/ChatContainer/ChatContainer'
 
 
@@ -53,6 +54,12 @@ const routes = [
     path: '/user/:id',
     name: 'UserProfilePage',
     component: UserProfilePage,
+    props: true
+  },
+  {
+    path: '/user/:id/proposal',
+    name: 'UserProposal',
+    component: UserProposal,
     props: true
   },
   {

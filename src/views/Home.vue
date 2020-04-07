@@ -1,44 +1,38 @@
 <template>
   <div class="home">
     <h1>Welcome To Skill Exchange</h1>
-    <hr>
-    <h2>People who knows the skills you want to gain: ...</h2>
-    <hr>
-    <h2>People who wants to gain the skills you have: ...</h2>
-    <hr>
-    <h2>Auto Matched people: People who shares common interests ...</h2>
-    <hr>
-
-    
-    <b-table hover :fields="fields" :items="users" >
-     <template v-slot:cell(user)="users">
-        <router-link :to="{ name: 'UserProfile', params: { id: users.item.id }}"> {{users.item.id}} </router-link>                
-
-       <!-- <router-link :to="`user/${users.item.id}/profile`">{{ users.item.id }}</router-link>       -->
-      </template>
-    </b-table>    
+      <div class="container">
+        <hr>
+            <div class="row" >
+              <div class="col d-flex" v-for="(user, indexes) in users" :key="indexes + 'A'">
+                <b-card
+                  :title="user.userDetails.firstName + ' ' +user.userDetails.lastName"
+                  img-src="https://picsum.photos/600/300/?image=26"
+                  img-alt="Image"
+                  img-top
+                  tag="article"
+                  style="max-width: 20rem;"
+                  class="mb-2"
+                >
+                <hr>
+                  <b-card-text class="left-align ">
+                    <span v-for="(skillHave, index) in user.userHaveSkills" :key="index + 'A'">Offer: {{ skillHave.name }}</span>
+                    <br>
+                    <span v-for="(skill, index) in user.userNeedSkills" :key="index + 'B'">Want: {{ skill.name }}</span>
+                  </b-card-text>               
+                  <router-link :to="{ name: 'UserProfile', params: { id: user.userDetails.id, userObj:user }}">
+                        <b-button variant="success">View Profile </b-button>
+                  </router-link> 
+                </b-card>
+              </div>
+            </div>
+        </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
-  data() {
-    return {
-      fields: [ 
-        {
-          // A column that needs custom formatting,
-            // calling formatter 'fullName' in this app
-            key: 'user',
-            label: 'Id',
-            formatter: 'getId'
-        },
-        'firstName', 
-        'lastName', 
-        'email'
-        ]
-    }
-  },
   computed: {
       ...mapState({
           users: state => state.users.all.items
@@ -49,12 +43,8 @@ export default {
   },
   methods: {
       ...mapActions('users', {
-          getAllUsers: 'getAll',
-          deleteUser: 'delete'
-      }),
-      getId(value){
-        return `${value}`
-      }
+          getAllUsers: 'getAll'
+      })
   }
 }
 </script>

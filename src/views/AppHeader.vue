@@ -18,10 +18,9 @@
             text="Skill Type" 
             variant="info" 
             class="m-2"  
-            v-if="isLoggedIn"    
             >
               <b-dropdown-item 
-              v-for="(option, index) in allSkills.skills" :key="index" :value="option.id"
+              v-for="(option, indexSkill) in allSkills.skills" :key="indexSkill + 'E'" :value="option.id"
               >{{option.name}}
               </b-dropdown-item>
             </b-dropdown>
@@ -66,8 +65,10 @@ export default {
   },
   methods: {
       ...mapActions('skills', ['getAllSkills']),
-      ...mapActions('account', ['account'])    
+      ...mapActions('account', ['account']),
+      onSubmit(){
 
+      } 
   }
 }
 </script>
