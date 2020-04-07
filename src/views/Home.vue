@@ -1,9 +1,20 @@
 <template>
   <div class="home">
-    <h1>All users</h1>
+    <h1>Welcome To Skill Exchange</h1>
+    <hr>
+    <h2>People who knows the skills you want to gain: ...</h2>
+    <hr>
+    <h2>People who wants to gain the skills you have: ...</h2>
+    <hr>
+    <h2>Auto Matched people: People who shares common interests ...</h2>
+    <hr>
+
+    
     <b-table hover :fields="fields" :items="users" >
      <template v-slot:cell(user)="users">
-       <router-link :to="`user/${users.item.id}`">{{ users.item.id }}</router-link>      
+        <router-link :to="{ name: 'UserProfile', params: { id: users.item.id }}"> {{users.item.id}} </router-link>                
+
+       <!-- <router-link :to="`user/${users.item.id}/profile`">{{ users.item.id }}</router-link>       -->
       </template>
     </b-table>    
   </div>

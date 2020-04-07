@@ -8,7 +8,7 @@ import Profile from '../components/UserDetails'
 import UserProfilePage from '../views/UserPages/UserProfilePage'
 import WantedPeopleList from '../components/WantedPeopleList'
 import PeopleOwnedSkillList from '../components/PeopleOwnedSkillList'
-// import Message from '../components/ExchangeComponents/Messages'
+import UserProfile from '../components/UserComponent/UserProfile'
 import ChatContainer from '../components/ChatContainer/ChatContainer'
 
 
@@ -53,6 +53,12 @@ const routes = [
     path: '/user/:id',
     name: 'UserProfilePage',
     component: UserProfilePage,
+    props: true
+  },
+  {
+    path: '/user/:id/profile',
+    name: 'UserProfile',
+    component: UserProfile,
     props: true
   },
   {

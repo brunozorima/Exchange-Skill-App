@@ -3,7 +3,7 @@
         <h1>Accepted Proposal: </h1>
         <ul v-if="AcceptedRequestsList.length > 0">
             <li v-for="(exchange, index) in AcceptedRequestsList" :key="index" >
-                <router-link :to="{ name: 'ChatContainer', params: { exchangeId: exchange.exchange_Id, exchangeWith:exchange.firstName}}">{{exchange.firstName}} {{exchange.lastName}}</router-link>             
+                <router-link :to="{ name: 'ChatContainer', params: { exchangeId: exchange.exchange_Id, exchangeWith:exchange.firstName, exchangeObject:exchange, exchangeIndex:index}}">{{exchange.firstName}} {{exchange.lastName}}</router-link>             
             </li>
         </ul>
         <p v-else>No Proposal Available!</p>

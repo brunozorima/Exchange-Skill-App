@@ -13,8 +13,24 @@
             <b-nav-item class="nav-link active" to="/"> Home</b-nav-item>            
             <b-nav-item class="nav-link active" v-if="isLoggedIn" to="/dashboard"> Dashboard</b-nav-item>            
             <b-nav-item class="nav-link active" v-if="!isLoggedIn" to="/login"> Login</b-nav-item>            
-            <b-nav-item class="nav-link active" v-if="!isLoggedIn" to="/signup"> Register</b-nav-item>  
-            <b-nav-item class="nav-link active" to="/about"> About</b-nav-item>     
+            <b-nav-item class="nav-link active" v-if="!isLoggedIn" to="/signup"> Register</b-nav-item> 
+            <b-dropdown id="dropdown-left"  
+            text="Skill Type" 
+            variant="info" 
+            class="m-2"  
+            v-if="isLoggedIn"    
+            >
+              <b-dropdown-item 
+              v-for="(option, index) in allSkills.skills" :key="index" :value="option.id"
+              >{{option.name}}
+              </b-dropdown-item>
+            </b-dropdown>
+            <b-dropdown id="dropdown-right" v-if="isLoggedIn" right text="Skill Goal" variant="info" class="m-2">
+              <b-dropdown-item href="#">Need</b-dropdown-item>
+              <b-dropdown-item href="#">Want</b-dropdown-item>
+              <b-dropdown-item href="#">Auto Matching</b-dropdown-item>
+            </b-dropdown>
+            <b-nav-item class="nav-link active" to="/about"> About</b-nav-item>    
             <b-nav-item class="nav-link active" v-if="isLoggedIn" to="/login"> Logout</b-nav-item>            
       </b-navbar-nav>
 
@@ -35,20 +51,24 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex';
+
 export default {
-      computed : {    
-         ...mapState({
-            account: state => state.account            
-        }),
-        //returns true if the user is logged in else false 
-        isLoggedIn : function(){ return this.account.status.loggedIn}  
-    },
-    methods: {
-        onSubmit(){
-            //to be implemented
-        }
-    }
+  mounted(){
+    this.getAllSkills();
+  },
+  computed : {    
+    //returns true if the user is logged in else false 
+    // isLoggedIn : function(){ return this.account.status.loggedIn}  
+    ...mapState('account',['isLoggedIn']),
+    ...mapState('skills', ['allSkills']),
+
+  },
+  methods: {
+      ...mapActions('skills', ['getAllSkills']),
+      ...mapActions('account', ['account'])    
+
+  }
 }
 </script>
 

@@ -1,6 +1,8 @@
 import { authHeader } from '../helpers';
 import axios from 'axios';
 const API_URL = 'https://localhost:44381/api/access';
+const API_For_User = 'https://localhost:44381/api/person';
+
 
 export const userService = {
     login,
@@ -68,7 +70,7 @@ async function getById(id) {
         headers: authHeader()
     };
 
-    return axios.get(API_URL + `/${id}`, requestOptions).then(handleResponse);
+    return axios.get(API_For_User + `/${id}`, requestOptions).then(handleResponse);
 }
 
 //used to update a user details

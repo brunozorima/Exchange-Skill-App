@@ -6,27 +6,59 @@
         <div class="body">
             <div class="table">
                 <chat-log v-bind:Id="id_exchange"></chat-log>
-                <message-input v-bind:exchange_id="id_exchange"></message-input>
+                <message-input v-show="status === 1" v-bind:exchange_id="id_exchange"></message-input>
+                <b-button-group v-show="status === 0 && this.myExchange === false">
+                    <b-button variant="success" @click="AcceptRequest()">Accept</b-button>
+                    <b-button variant="danger"  @click="RejectRequest()">Reject</b-button>
+                </b-button-group>
+                <b-button v-show="status === 0 && this.myExchange === true" variant="danger" @click="CancelRequests(exchange, index)">Cancel Request</b-button>
             </div>
         </div>
     </div>
 </template>
 <script>
+import { mapState, mapActions, mapGetters } from 'vuex';
 import ChatLog from '../ChatContainer/ChatLog';
 import MessageInput from '../ChatContainer/MessageInput';
 
 export default {
-    props: ["exchangeId", "exchangeWith"],
+    props: ["exchangeId", "exchangeWith","exchangeObject","exchangeIndex","myExchange"],
     data() {
         return {
             title: 'Exchange With ',
-            id_exchange: this.exchangeId
+            id_exchange: this.exchangeId,
+            status: this.exchangeObject.status,
+            index: this.exchangeIndex
         };
     },
     name: 'chat-container',
     components: {
         ChatLog,
         MessageInput,
+    },
+    computed: {
+      ...mapGetters('account', ['loggedUserId'])
+    },
+    methods:{
+        ...mapActions('exchange',['UpdateRequest','CancelRequest','RejectExchange']),
+      AcceptRequest(){
+        this.status = 1;
+        this.UpdateRequest({
+            request_id: this.id_exchange,
+            status: this.status,
+            userId: this.loggedUserId,
+            exchange: this.exchangeObject,
+            index: this.index
+        })
+      },
+      RejectRequest(){
+        this.status = 6;
+        this.RejectExchange({
+            request_id: this.id_exchange,
+            userId: this.loggedUserId,
+            index: this.index
+        })
+      }
     }
 }
 </script>

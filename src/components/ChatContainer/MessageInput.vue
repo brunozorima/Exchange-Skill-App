@@ -4,9 +4,11 @@
       v-model="messageBody"
       ref="messageInput"
       placeholder="message..."
-      maxlength="20000"
-      @keydown.enter="submitMessage"
+      maxlength="20000"         
     ></textarea>
+      <b-button-group>
+          <b-button class="message-button" variant="primary" @click.prevent="submitMessage()">Send</b-button>
+      </b-button-group>
   </div>
 </template>
 
@@ -26,18 +28,11 @@ export default {
   },
   methods: {
     ...mapActions('exchange',['SendMessage']),
-    submitMessage(event) {
-
-      if (!event.shiftKey) {
-        event.preventDefault();
-      } else {
-        return;
-      }
+    submitMessage() {      
       // If the message body is empty, do not submit
-      if (event.target.value.length === 0) {
+      if (this.messageBody.length === 0) {
         return;
       }
-
      var message = {
         Sender_Id: this.loggedUserId,
         Exchange_Id: this.exchange_id,
@@ -46,7 +41,7 @@ export default {
 
         this.SendMessage(message);
         // Reset the text input
-        event.target.value = '';
+        this.messageBody = '';
     }
     
     
@@ -56,10 +51,10 @@ export default {
 </script>
 
 <style scoped>
-.message-input {
-  display: table-row;
+.message-input, message-button{
+  display: inline-block;
   width: 100%;
-  height: 26px;
+  height: 40px;
 }
 textarea {
   width: 98%;

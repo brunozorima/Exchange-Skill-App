@@ -5,18 +5,10 @@ import { userService } from '../services';
 import { router } from '../helpers';
 
 const user = JSON.parse(JSON.stringify(localStorage.getItem('user')));
-
-function getUser(user){
-    return (user 
-    ? { status: { loggedIn: true }, user }
-    : { status: {}, user: null }
-    )
-}; 
-const state = 
-     user 
-    ? { status: { loggedIn: true }, user }
-    : { status: {}, user: null }  
-
+const state = {
+    user:{},
+    isLoggedIn: {}
+};
 const actions = {
     login({ dispatch, commit }, { username, password }) {
         commit('loginRequest', { username });
@@ -60,35 +52,38 @@ const actions = {
 
 const mutations = {
     loginRequest(state, user) {
-        state.status = { loggingIn: true };
+        state.isLoggedIn = {Loading: true};
         state.user = user;
     },
     loginSuccess(state, user) {
-        state.status = { loggedIn: true };
+        state.isLoggedIn = true;
         state.user =  user;
     },
     loginFailure(state) {
-        state.status = {};
+        state.isLoggedIn = false;
         state.user = null;
     },
     logout(state) {
-        state.status = {};
+        state.isLoggedIn = false;
         state.user = null;
     },
     registerRequest(state) {
         state.status = { registering: true };
     },
     registerSuccess(state) {
-        state.status = {};
+        state.isLoggedIn = false;
     },
     registerFailure(state) {
-        state.status = {};
+        state.isLoggedIn = false;
     }
 };
 const getters = {
     loggedUserId: state => {
         return state.user.id
-    } 
+    },
+    isLoggedIn: state => {
+        return state.isLoggedIn
+    }
 };
 export const account = {
     namespaced: true,
