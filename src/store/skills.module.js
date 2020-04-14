@@ -4,9 +4,9 @@ import { skillService } from '../services';
 
 const state = {
     allSkills: {},
-    myHasSkill: {},
+    myHasSkill: [],
     UserWantedSkills:{},
-    myWantedSkillToGain: {},
+    myWantedSkillToGain: [],
     loadingMySkills: false,
     skillAdded: {},
     wantedPeople: {},
@@ -58,7 +58,7 @@ const actions = {
         );
     },
 
-    
+
     //add a WANT or NEED skill to a list of this particular user
     addUserWantSkill({commit}, {person_id, skill_id}){
         commit('addUserWantSkillRequest', skill_id);
@@ -91,19 +91,50 @@ const actions = {
             PeopleOwnSkills => commit('getPeopleOwnedSkillsBySkillIdSuccess', PeopleOwnSkills),
             error => commit('getPeopleOwnedSkillsBySkillIdFailure', error )
         );
+    },
+
+    //remove a skill from a own or wanted list of skills
+    RemoveSkill({commit}, {userId, skillId, index, type}){
+        commit('RemoveSkillRequest', type);
+        if(type === "own"){
+            skillService.RemoveOwnedSkill(userId, skillId)
+            .then(
+                RemoveOwnSkill => commit('RemoveOwnSkillSuccess', index),
+                err => commit('RemoveSkillFailure', err)
+            );
+        }
+        else {
+            skillService.RemoveWantedSkill(userId, skillId)
+            .then(
+                RemoveWantSkill => commit('RemoveWantSkillSuccess', index),
+                err => commit('RemoveSkillFailure', err)
+            );
+        }
     }
 };
 
 const mutations = {
+    RemoveSkillRequest(state, types){
+        state.skillAdded = {type: types}
+    },
+    RemoveOwnSkillSuccess(state, index){
+        state.myHasSkill.splice(index, 1)
+    },
+    RemoveWantSkillSuccess(state, index){
+        state.myWantedSkillToGain.splice(index, 1)      
+    },
+    RemoveSkillFailure(state, err){
+        state.skillAdded = {Error: 'No Skills Removed', erro:err}
+    },
     addUserWantSkillRequest(state, id){
-        state.UserWantedSkills = {isAddding: true, id}
+        state.skillAdded = {isAddding: true, id}
     },
     addUserWantSkillSuccess(state, WantedskillAdded){
-        state.UserWantedSkills = { new_wanted_skill_added: WantedskillAdded }
-        state.myWantedSkillToGain.SkillsToGain.push(WantedskillAdded)
+        state.skillAdded = { new_wanted_skill_added: WantedskillAdded }
+        state.myWantedSkillToGain.push(WantedskillAdded)
     },
     addUserWantSkillFailure(state, err){
-        state.UserWantedSkills = {err}
+        state.skillAdded = {err}
     },
 
     //requesting all available skill
@@ -122,7 +153,7 @@ const mutations = {
         state.allSkills.listOfSkills = {loadingMySkills: true};
     },
     getPersonHasSkillSuccess(state, skill) {
-        state.myHasSkill = { skill };
+        state.myHasSkill = skill;
     },
     getPersonHasSkillFailure(state, err){
         state.myHasSkill = { err };
@@ -135,7 +166,7 @@ const mutations = {
     },
     addSkillSuccess(state, addedSkill){
         state.skillAdded = { new_skill: addedSkill };
-        state.myHasSkill.skill.push(addedSkill)
+        state.myHasSkill.push(addedSkill)
     },
     addSkillFailure(state, error){
         state.skillAdded = {error}
@@ -158,7 +189,7 @@ const mutations = {
         state.myWantedSkillToGain = {loading: true, Person_id: person_id}
     },
     getWantedSkillsByPersonIdSuccess(state, SkillsToGain){
-        state.myWantedSkillToGain = { SkillsToGain };
+        state.myWantedSkillToGain = SkillsToGain;
     },
     getWantedSkillsByPersonIdFailure(state, err) {
         state.myWantedSkillToGain = {err}

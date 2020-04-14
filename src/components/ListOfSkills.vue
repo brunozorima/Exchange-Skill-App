@@ -42,7 +42,10 @@ export default {
                 this.addUserWantSkill({
                 person_id: this.loggedUserId,
                  skill_id: this.selected })
-            }            
+            }    
+            this.selected =''
+            this.picked = ''    
+            alert("Skill Added!")    
         }
     },
     computed: {

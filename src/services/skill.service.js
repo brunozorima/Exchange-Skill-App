@@ -11,7 +11,9 @@ export const skillService = {
     getSkillById,
     GetWantedPersonBySkillId,
     getWantedSkillsByPersonId,
-    getPeopleOwnedSkillsBySkillId
+    getPeopleOwnedSkillsBySkillId,
+    RemoveOwnedSkill,
+    RemoveWantedSkill
 };
 //Handless all requests
 async function handleResponse(response) {
@@ -26,6 +28,25 @@ async function handleResponse(response) {
     }
     return response.data;
 }
+
+//remove a skill a user owns
+async function RemoveOwnedSkill(loggedInUser, skillId){
+    const requestOptions = {
+        method: 'DELETE',
+        headers: authHeader()
+    };
+    return axios.delete(PERSON_API_URL + `${loggedInUser}/ownSkills/${skillId}`, requestOptions).then(handleResponse);
+}
+
+//remove a skill a user wanted to gain
+async function RemoveWantedSkill(loggedInUser, skillId){
+    const requestOptions = {
+        method: 'DELETE',
+        headers: authHeader()
+    };
+    return axios.delete(PERSON_API_URL + `${loggedInUser}/wantedSkills/${skillId}`, requestOptions).then(handleResponse);
+}
+
 
 //get all the skills in the system
 //get all the skills in the system

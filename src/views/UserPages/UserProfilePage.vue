@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
-    <hr>
-    <h3>{{user.firstName}} {{user.lastName}}</h3>
+    <h3>{{user.userDetails.firstName}} {{user.userDetails.lastName}}</h3>
     <hr>
     <textarea v-model="MessageBody" placeholder="Write your message here"></textarea>
     <br>

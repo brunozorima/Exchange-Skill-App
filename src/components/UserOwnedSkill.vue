@@ -1,9 +1,13 @@
 <template>
     <div>
         <h1>I have this SKILLS</h1>
-        <ul>
-            <li v-for="skill in myHasSkill.skill" :key="skill.id" >
-                <router-link :to="{ name: 'WantedPeopleList', params: { skillId: skill.id, skillName: skill.name }}"> {{ skill.name }} </router-link>                
+         <div class="text-center" v-if="!Array.isArray(myHasSkill) || !myHasSkill.length">
+             <b-spinner variant="primary" label="Text Centered"></b-spinner>
+        </div>
+        <ul v-else>
+            <li v-for="(skill, index) in myHasSkill" :key="index + 'Z'" >
+                <router-link :to="{ name: 'WantedPeopleList', params: { skillId: skill.id, skillName: skill.name }}"> {{ skill.name }} </router-link>   
+                <b-button variant="danger"  @click="RemoveOwnSkill(skill, index)">Remove</b-button>
             </li>
         </ul>
     </div>
@@ -18,12 +22,19 @@ export default {
     },
     computed: {
         ...mapGetters('account', ['loggedUserId']),
-        ...mapState('skills', ['myHasSkill']),
-
+        ...mapState('skills', ['myHasSkill'])
     },
     methods: {
-        ...mapActions('skills',['GetPersonHasSkillById'])
+        ...mapActions('skills',['GetPersonHasSkillById','RemoveSkill']),
+        //local methods
+        RemoveOwnSkill(skill, index){
+            this.RemoveSkill({
+                userId: this.loggedUserId,
+                skillId:skill.id,
+                index: index,
+                type: 'own'
+            });
+        }   
     }
-    
 }
 </script>
