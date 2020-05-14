@@ -1,19 +1,22 @@
 import '@babel/polyfill'
 import 'mutationobserver-shim'
 import Vue from 'vue'
+import Vuetify from 'vuetify'
 import './plugins/bootstrap-vue'
+// import 'vuetify/dist/vuetify.min.css'
 import App from './App.vue'
 import {router} from './helpers'
 import {store} from './store'
 import Axios from 'axios'
 
 //other libraries
-import { library, dom} from '@fortawesome/fontawesome-svg-core'
-import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-library.add(faUserSecret)
-Vue.component('font-awesome-icon', FontAwesomeIcon)
-dom.watch()  // This will kick of the initial replacement of i to svg tags and configure a MutationObserver
+Vue.use(Vuetify)
+// import { library, dom} from '@fortawesome/fontawesome-svg-core'
+// import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+// library.add(faUserSecret)
+// Vue.component('font-awesome-icon', FontAwesomeIcon)
+// dom.watch()  // This will kick of the initial replacement of i to svg tags and configure a MutationObserver
 
 //handling data management
 Vue.prototype.$http = Axios;

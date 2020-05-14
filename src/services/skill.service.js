@@ -8,6 +8,7 @@ export const skillService = {
     getPersonHasSkillById,
     addHasSkill,
     addUserWantSkill,
+    createSkill,
     getSkillById,
     GetWantedPersonBySkillId,
     getWantedSkillsByPersonId,
@@ -28,7 +29,15 @@ async function handleResponse(response) {
     }
     return response.data;
 }
-
+//crwate a skill event
+async function createSkill(_Id, _Name, _Category,_Type,_BelongsTo) {  
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json-patch+json;charset=UTF-8'}        
+    };
+    return axios.post(SKILL_API_URL + `/create/name=${_Name}/cat=${_Category}/type=${_Type}/user=${_BelongsTo}`, requestOptions)
+    .then(handleResponse);
+}
 //remove a skill a user owns
 async function RemoveOwnedSkill(loggedInUser, skillId){
     const requestOptions = {

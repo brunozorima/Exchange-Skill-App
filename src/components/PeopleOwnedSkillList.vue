@@ -1,10 +1,10 @@
 //list of people that OWNS this specific skills - the skills they have and they can teach me
 <template>
     <div>
-        <h1>People Who OWNS This Skill: {{this.skillName}}</h1>
+        <h1>People offfering: {{this.skillName}}</h1>
         <ul>
             <li v-for="person in OwnedSkillByPeople.skillOwned" :key="person.id">
-                <router-link :to="{ name: 'UserProfilePage', params: { id: person.id }}"> {{person.firstName}} </router-link>                
+                <router-link :to="{ name: 'UserProfile', params: { id: person.userDetails.id, userObj:person }}"> {{person.userDetails.firstName}} </router-link>                
             </li>
         </ul>
     </div>

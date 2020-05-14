@@ -8,12 +8,14 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
+            <th>Location</th>
         </tr>
         <tr>
             <td>{{account.user.id}}</td>
             <td>{{account.user.firstName}}</td>
             <td>{{account.user.lastName}}</td>
             <td>{{account.user.email}}</td>
+            <td>{{account.user.location}}</td>
         </tr> 
         </table>
     </div>

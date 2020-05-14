@@ -1,15 +1,16 @@
 <template>
     <div>
-        <h1>I have this SKILLS</h1>
-         <div class="text-center" v-if="!Array.isArray(myHasSkill) || !myHasSkill.length">
+        <h1>Offering</h1>
+         <!-- <div class="text-center" v-if="!Array.isArray(myHasSkill) || !myHasSkill.length">
              <b-spinner variant="primary" label="Text Centered"></b-spinner>
-        </div>
-        <ul v-else>
+        </div> -->
+        <ul v-if="myHasSkill.length > 0">
             <li v-for="(skill, index) in myHasSkill" :key="index + 'Z'" >
                 <router-link :to="{ name: 'WantedPeopleList', params: { skillId: skill.id, skillName: skill.name }}"> {{ skill.name }} </router-link>   
                 <b-button variant="danger"  @click="RemoveOwnSkill(skill, index)">Remove</b-button>
             </li>
         </ul>
+        <p v-else>No Owned Skills Available!</p>
     </div>
 </template>
 

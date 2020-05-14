@@ -51,4 +51,45 @@
     </nav>
     <b-container>
       <!-- allow the system to re-route without refreshing the page -->
-     
+      
+        <!-- <label>Last Name
+        </label>
+        <label>Description
+        </label>
+        <label>Location
+        </label>
+        <label>Education
+        </label>
+        <label>Work Experience
+        </label>
+        <label>Education
+        </label> -->
+
+        <!-- <input v-model="message" placeholder="edit me">
+        <input v-model="message" placeholder="edit me">
+        <input v-model="message" placeholder="edit me">
+        <input v-model="message" placeholder="edit me">
+        <input v-model="message" placeholder="edit me">
+        <input v-model="message" placeholder="edit me"> -->
+
+        <!-- <table border="1" align="center">
+        <tr>
+            <th>Id</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+        </tr>
+        <tr>
+            <td>{{account.user.id}}</td>
+            <td>{{account.user.firstName}}</td>
+            <td>{{account.user.lastName}}</td>
+            <td>{{account.user.email}}</td>
+        </tr> 
+        </table> -->
+        <hr>
+        <!-- <div class="large-12 medium-12 small-12 cell">
+            <label>File
+                <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+            </label>
+            <button v-on:click="submitFile()">Submit</button>
+        </div> -->

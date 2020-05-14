@@ -22,7 +22,7 @@
                         <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'PendingExchanges'">NOTIFICATIONS</a>
                     </li>
                     <li id="menu-benefits" role="presentation" class="tabs-mobile__item">
-                        <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'AllExchanges'">SETTINGS</a>
+                        <a class="tabs-mobile__link"  v-on:click="currentTabComponent = 'UserSetting'">SETTINGS</a>
                     </li>
               </ul>
           </div>
@@ -47,7 +47,7 @@ import userSkills from '../components/SkillComponent/skillPage';
 import ListOfSkills from '../components/ListOfSkills';
 import AllExchanges from '../components/ExchangeComponents/AllExchanges';
 import PendingExchanges from '../components/ExchangeComponents/PendingExchanges';
-
+import UserSetting from '../components/UserSetting';
 
 export default {
  components: {
@@ -55,7 +55,8 @@ export default {
       userSkills,
       ListOfSkills,
       AllExchanges,
-      PendingExchanges
+      PendingExchanges,
+      UserSetting
     },
   data() {
     return {

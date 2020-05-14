@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login'
 import Register from '../views/Register'
 import Dashboard from '../views/Dashboard'
-import Profile from '../components/UserDetails'
+import MatchMembers from '../components/UserComponent/MatchMembers'
 import UserProfilePage from '../views/UserPages/UserProfilePage'
 import WantedPeopleList from '../components/WantedPeopleList'
 import PeopleOwnedSkillList from '../components/PeopleOwnedSkillList'
@@ -42,9 +42,9 @@ const routes = [
     }
   },
   {
-    path: '/members/profile',
-    name: 'Profile',
-    component: Profile,
+    path: '/match/members',
+    name: 'MatchMembers',
+    component: MatchMembers,
     meta: { 
       requiresAuth: true
     },

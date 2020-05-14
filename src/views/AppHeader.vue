@@ -13,22 +13,7 @@
             <b-nav-item class="nav-link active" to="/"> Home</b-nav-item>            
             <b-nav-item class="nav-link active" v-if="isLoggedIn" to="/dashboard"> Dashboard</b-nav-item>            
             <b-nav-item class="nav-link active" v-if="!isLoggedIn" to="/login"> Login</b-nav-item>            
-            <b-nav-item class="nav-link active" v-if="!isLoggedIn" to="/signup"> Register</b-nav-item> 
-            <b-dropdown id="dropdown-left"  
-            text="Skill Type" 
-            variant="info" 
-            class="m-2"  
-            >
-              <b-dropdown-item 
-              v-for="(option, indexSkill) in allSkills.skills" :key="indexSkill + 'E'" :value="option.id"
-              >{{option.name}}
-              </b-dropdown-item>
-            </b-dropdown>
-            <b-dropdown id="dropdown-right" v-if="isLoggedIn" right text="Skill Goal" variant="info" class="m-2">
-              <b-dropdown-item href="#">Need</b-dropdown-item>
-              <b-dropdown-item href="#">Want</b-dropdown-item>
-              <b-dropdown-item href="#">Auto Matching</b-dropdown-item>
-            </b-dropdown>
+            <b-nav-item class="nav-link active" v-if="!isLoggedIn" to="/signup"> Register</b-nav-item>          
             <b-nav-item class="nav-link active" to="/about"> About</b-nav-item>    
             <b-nav-item class="nav-link active" v-if="isLoggedIn" to="/login"> Logout</b-nav-item>            
       </b-navbar-nav>

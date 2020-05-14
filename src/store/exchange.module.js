@@ -92,6 +92,15 @@ const actions = {
                 err => commit('updateRequestFailure', err)
             );
     },
+    MarkRequestCompleted({commit}, {request_id, status, userId, index}){
+        commit('CompleteRequestCommit');
+
+        exchangeService.UpdateRequest(request_id, status, userId)
+            .then(
+                completedExchange => commit('CompleteRequestSuccess', index),
+                err => commit('CompleteRequestFailure', err)
+            );
+    },
     CancelRequest({commit}, {request_id, userId, index}){
         commit('CancelRequestCommit', request_id);
 
@@ -113,6 +122,15 @@ const actions = {
 };
 
 const mutations = {
+    CompleteRequestCommit(state){
+        state.ExchangeObject ={updating: true}
+    },
+    CompleteRequestSuccess(state, index){
+        state.AcceptedRequestsList.splice(index, 1)
+    },
+    CompleteRequestFailure(state, err){
+        state.ExchangeObject ={error: err}
+    },
     CancelRequestCommit(state, req_id){
         state.ExchangeObject = req_id;
     },

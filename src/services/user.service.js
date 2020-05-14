@@ -77,7 +77,8 @@ async function getById(id) {
 async function update(user) {
     const requestOptions = {
         method: 'PUT',
-        headers: { ...authHeader(), 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json-patch+json;charset=UTF-8',
+        'Access-Control-Allow-Origin': '*' },
         body: JSON.stringify(user)
     };
 

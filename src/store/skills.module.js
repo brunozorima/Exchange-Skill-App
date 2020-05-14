@@ -45,6 +45,16 @@ const actions = {
             error => commit('getWantedSkillsByPersonIdFailure', error )
         );
     },
+    //create a new skill to learn or teach
+    createSkill({commit}, {Id, Name, Category,Type,BelongsTo}){
+        commit('createSkillRequest');
+
+        skillService.createSkill(Id, Name, Category,Type,BelongsTo)
+        .then(
+            createdSkill => commit('CreateSkillSuccess', createdSkill),
+            error => commit('CreateSkillFailure', error )
+        );
+    },
 
     //add a OWN or HAVE skill to a list
     addHasSkill({commit}, {person_id, id}){
@@ -114,6 +124,15 @@ const actions = {
 };
 
 const mutations = {
+    createSkillRequest(state, ){
+        state.skillAdded = {Creating: true};
+    },
+    CreateSkillSuccess(state, createdSkill){
+        state.skillAdded = {createdSkill};
+    },
+    CreateSkillFailure(state, err){
+        state.skillAdded = {Error: 'No Skill Created', error:err};
+    },
     RemoveSkillRequest(state, types){
         state.skillAdded = {type: types}
     },

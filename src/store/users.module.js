@@ -1,10 +1,12 @@
 //The vuex users module is in charge of the users section of the centralised state store. It contains actions for fetching all users from the api and deleting a user,
 // and contains mutations for each of the lower level state changes involved in each action.
 import { userService } from '../services';
+import { acccount } from './account.module';
 
 const state = {
     all: {},
-    user: {}
+    user: {},
+    allUsers:[]
 };
 
 const actions = {
@@ -28,6 +30,16 @@ const actions = {
                 error => commit('getUserByIdFailure', error)
             );
     },
+    //update a user
+    updateUser({commit}, user) {
+        commit('updateUserRequest', user);
+
+        userService.update(user)
+            .then(
+                user => commit('updateUserSuccess', user),
+                error => commit('updateUserFailure', error)
+            );
+    },
 
     delete({ commit }, id) {
         commit('deleteRequest', id);
@@ -41,11 +53,36 @@ const actions = {
 };
 
 const mutations = {
+    updateUserRequest(state, _user){
+        state.user = _user;
+    },
+    updateUserSuccess(state, _u){
+        state.user = {updateUser: _u};
+        return _u;
+    },
+    updateUserFailure(state, err){
+        state.user = {updateUSerFail: err};
+    },
     getAllRequest(state) {
         state.all = { loading: true };
     },
     getAllSuccess(state, users) {
+        // users = users.filter(user => user.userDetails.id !== acccount.state.user.id)
+        // state.all = { items:  };
         state.all = { items: users };
+        state.allUsers = users;
+        
+        
+        // if(state.user.id > 0){
+        //     var userLeft = users.filter(function (u) {
+        //         return u.userDetails != state.user
+        //     })
+        //     state.all = { items: userLeft };
+        // }  
+        // else {
+        //     state.all = { items: users };
+        // }     
+        
     },
     getAllFailure(state, error) {
         state.all = { error };
