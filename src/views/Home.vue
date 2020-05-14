@@ -34,6 +34,9 @@
               name="radio-inline"
             ></b-form-radio-group>
         </b-form-group>
+        <router-link :to="{ name: 'MatchMembers'}">
+              <b-button variant="success">Auto Match</b-button>
+        </router-link>
         </div>
         <hr>
         <br>

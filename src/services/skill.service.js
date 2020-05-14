@@ -14,7 +14,10 @@ export const skillService = {
     getWantedSkillsByPersonId,
     getPeopleOwnedSkillsBySkillId,
     RemoveOwnedSkill,
-    RemoveWantedSkill
+    RemoveWantedSkill,
+    GetAutoMatching,
+    GetUserOffering,
+    GetUserSeeking
 };
 //Handless all requests
 async function handleResponse(response) {
@@ -29,7 +32,36 @@ async function handleResponse(response) {
     }
     return response.data;
 }
-//crwate a skill event
+//return a list of users with matching offering and seeking skills
+//list of all skills
+async function GetAutoMatching(person_id) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return axios.get(PERSON_API_URL + `${person_id}/users/match`, requestOptions).then(handleResponse);
+}
+//get all users offering the skills a user seeking
+async function GetUserOffering(person_id) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return axios.get(PERSON_API_URL + `${person_id}/users/offering`, requestOptions).then(handleResponse);
+}
+
+//get all users seeking the skills a user offering
+async function GetUserSeeking(person_id) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return axios.get(PERSON_API_URL + `${person_id}/users/seeking`, requestOptions).then(handleResponse);
+}
+//create a skill event
 async function createSkill(_Id, _Name, _Category,_Type,_BelongsTo) {  
     const requestOptions = {
         method: 'POST',

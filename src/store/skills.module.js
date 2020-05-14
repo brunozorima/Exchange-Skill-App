@@ -10,7 +10,10 @@ const state = {
     loadingMySkills: false,
     skillAdded: {},
     wantedPeople: {},
-    OwnedSkillByPeople: {}
+    OwnedSkillByPeople: {},
+    MatchingUSer:[],
+    MatchingOfferingUSer:[],
+    MatchingSeekingUSer:[]
 };
 
 const actions = {
@@ -22,6 +25,37 @@ const actions = {
             .then(
                 skills => commit('getAllSkillsSuccess', skills),
                 error => commit('getAllSkillsFailure', error)
+            );
+    },
+
+        //get users with matching skills
+    getUsersWithMatchingSkills({ commit }, person_id) {
+        commit('MatchingRequest');
+
+        skillService.GetAutoMatching(person_id)
+            .then(
+                matchingUsers => commit('MatchingSuccess', matchingUsers),
+                error => commit('MatchingFailure', error)
+            );
+    },
+          //get users offering the skills I am looking for
+        getUsersOfferingSkills({ commit }, person_id) {
+            commit('MatchingOfferingRequest');
+
+            skillService.GetUserOffering(person_id)
+                .then(
+                    matchingUsers => commit('MatchingOfferingSuccess', matchingUsers),
+                    error => commit('MatchingOfferingFailure', error)
+                );
+        },
+              //get users seeking for the skills I am offering
+    getUsersSeekingSkills({ commit }, person_id) {
+        commit('MatchingSeekingRequest');
+
+        skillService.GetUserSeeking(person_id)
+            .then(
+                matchingUsers => commit('MatchingSeekingSuccess', matchingUsers),
+                error => commit('MatchingSeekingFailure', error)
             );
     },
 
@@ -124,6 +158,33 @@ const actions = {
 };
 
 const mutations = {
+    MatchingRequest(state){
+        state.MatchingUSer = {Matching:true};
+    },
+    MatchingSuccess(state, matchingResult){
+        state.MatchingUSer = matchingResult;
+    },
+    MatchingFailure(state, err){
+        state.MatchingUSer = {Error:err};
+    },
+    MatchingOfferingRequest(state){
+        state.MatchingOfferingUSer = {Matching:true};
+    },
+    MatchingOfferingSuccess(state, matchingResult){
+        state.MatchingOfferingUSer = matchingResult;
+    },
+    MatchingOfferingFailure(state, err){
+        state.MatchingOfferingUSer = {Error:err};
+    },
+    MatchingSeekingRequest(state){
+        state.MatchingSeekingUSer = {Matching:true};
+    },
+    MatchingSeekingSuccess(state, matchingResult){
+        state.MatchingSeekingUSer = matchingResult;
+    },
+    MatchingSeekingFailure(state, err){
+        state.MatchingSeekingUSer = {Error:err};
+    },
     createSkillRequest(state, ){
         state.skillAdded = {Creating: true};
     },
